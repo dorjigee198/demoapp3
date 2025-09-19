@@ -1,41 +1,37 @@
 # Task Manager Application Deployment and Service
-# This file creates the main application deployment and exposes it via a service
-# 📝 IMPORTANT: Replace 0215539 with your actual student number (e.g., 0215539)
 
 # Deployment - Manages the Task Manager application Pods
-apiVersion: apps/v1        # API version for Deployment resources
-kind: Deployment          # Resource type - manages application replicas
-metadata:                 # Information about this Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: taskmanager-deployment
-  namespace: "02210198"    # 📝 Replace 0215539 with your number
-  labels:                 # Labels for organizing resources
+  namespace: student-02210198   # ✅ fixed namespace
+  labels:
     app: taskmanager
     component: frontend
     version: v1
-    student: "02210198"  # 📝 Replace with your student number
-spec:                     # Desired state specification
-  replicas: 2             # Run 2 copies for high availability and load distribution
-  selector:               # How to find Pods managed by this Deployment
-    matchLabels:          # Pods must have these labels
+    student: "02210198"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
       app: taskmanager
-  template:               # Template for creating new Pods
-    metadata:             # Labels applied to each Pod
+  template:
+    metadata:
       labels:
-        app: taskmanager  # Must match selector above
+        app: taskmanager
         version: v1
-    spec:                 # Pod specification
-      containers:         # Containers in each Pod
-      - name: taskmanager # Container name
-        # Docker image from your CI/CD pipeline (update with your DockerHub username)
+    spec:
+      containers:
+      - name: taskmanager
         image: teknathdev/task-manager:latest
-        ports:                    # Ports exposed by container
-        - containerPort: 8000     # Port the Flask app listens on
-          name: http             # Named port for Service reference
-        env:                      # Environment variables
-        - name: DATABASE_URL      # Database connection string
-          value: "postgresql://myuser:uWhSZwv54wXv1T7F@10.104.0.6:5432/0215539"
-        - name: SECRET_KEY        # Flask secret key
-          value: "kubernetes-secret-key-02210198"  # 📝 Replace 0215539
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://myuser:uWhSZwv54wXv1T7F@10.104.0.6:5432/02210198"
+        - name: SECRET_KEY
+          value: "kubernetes-secret-key-02210198"
         - name: FLASK_ENV
           value: "production"
----
